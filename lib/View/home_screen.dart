@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:articleapptask/Common/color_class.dart';
 import 'package:articleapptask/Common/custom_search_bar.dart';
 import 'package:articleapptask/Controller/bloc/article_bloc.dart';
 import 'package:articleapptask/Model/article_model.dart';
 import 'package:articleapptask/View/favorite_ariticles_screen.dart';
 import 'package:articleapptask/View/full_article_screen.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
@@ -210,7 +213,32 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             );
           } else if (state is ArticleError) {
-            return Center(child: Text(state.message));
+            if (kDebugMode) {
+              log("message:-${state.message}");
+            }
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                        "Something went wrong. Please check your network or refresh the page."),
+                    IconButton(
+                        onPressed: () {
+                          context.read<ArticleBloc>().add(FetchArticles());
+                          articleBox =
+                              Hive.box<ArticleModel>('favorite_article');
+                          favoriteArticleList = articleBox.values.toList();
+                        },
+                        icon: const Icon(
+                          Icons.refresh,
+                          color: AppColors.appBartitleColor,
+                        ))
+                  ],
+                ),
+              ),
+            );
           }
 
           return const Center(child: Text("Pull down to load articles"));
