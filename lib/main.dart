@@ -24,10 +24,6 @@ class ArticleApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Article App',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
       home: BlocProvider(
         create: (_) => ArticleBloc(ArticleService()),
         child: const HomeScreen(title: "Articles"),

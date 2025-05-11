@@ -130,6 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       controller: _scrollController,
                       thumbVisibility: true,
                       thickness: 6,
+                      interactive: true,
                       radius: const Radius.circular(8),
                       child: RefreshIndicator(
                         onRefresh: () async {
